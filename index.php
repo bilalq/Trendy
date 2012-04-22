@@ -33,5 +33,7 @@ require_once("trendsetter.php");
 //$connection->post('friendships/destroy', array('id' => 9436992));
 
 /* Include HTML to display on the page */
+$potentials = makeTrends($content, $ignore, $punc);
+$content = getTrends($potentials);
 include('html.inc');
-getTrends($content);
+
