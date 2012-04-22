@@ -7,6 +7,7 @@
   function getTrends($tweets)
   {
     foreach ($tweets as $tweet) {
-      echo json_decode($tweet->text);
+      print_r($tweet->text);
+      echo "<br />";
     }
   }

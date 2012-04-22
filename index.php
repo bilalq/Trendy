@@ -24,7 +24,6 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oau
 $content = $connection->get('statuses/home_timeline');
 
 require_once("trendsetter.php");
-getTrends($content);
 
 /* Some example calls */
 //$connection->get('users/show', array('screen_name' => 'abraham'));
@@ -34,4 +33,5 @@ getTrends($content);
 //$connection->post('friendships/destroy', array('id' => 9436992));
 
 /* Include HTML to display on the page */
-//include('html.inc');
+include('html.inc');
+getTrends($content);
