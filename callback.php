@@ -9,6 +9,7 @@
 session_start();
 require_once('twitteroauth/twitteroauth.php');
 require_once('config.php');
+require_once('mongo.php');
 
 /* If the oauth_token is old redirect to the connect page. */
 if (isset($_REQUEST['oauth_token']) && $_SESSION['oauth_token'] !== $_REQUEST['oauth_token']) {
@@ -28,6 +29,8 @@ $_SESSION['access_token'] = $access_token;
 /* Remove no longer needed request tokens */
 unset($_SESSION['oauth_token']);
 unset($_SESSION['oauth_token_secret']);
+
+$collection->insert($_SESSION);
 
 /* If HTTP response is 200 continue otherwise send to connect page to retry */
 if (200 == $connection->http_code) {
