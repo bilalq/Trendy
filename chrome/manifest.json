@@ -1,0 +1,15 @@
+{
+	"name": "FriendTrends",
+	"version": "1.0",
+	"manifest_version": 2,
+	"description": "See what topics are trending in the people you're following.",
+	"content_scripts": [{
+		"all_frames": true,
+		"js":[ "jquery-1.7.2.js", "content_script.js" ],
+		"matches": [ 
+		      "http://twitter.com/*",
+		      "https://twitter.com/*"
+		    ],
+		"run_at": "document_end"
+	}]
+}
