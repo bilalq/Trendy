@@ -54,7 +54,7 @@
         }
       }
     }
-    return $rends;
+    return $trends;
   }
 
   function getSmallest($trends) {
