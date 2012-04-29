@@ -35,5 +35,6 @@ require_once("trendsetter.php");
 /* Include HTML to display on the page */
 $potentials = makeTrends($content, $ignore, $punc);
 $content = getTrends($potentials);
+var_dump(json_encode($content));
 include('html.inc');
 
