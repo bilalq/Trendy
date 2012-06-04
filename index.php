@@ -23,16 +23,14 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oau
 //$content = $connection->get('account/verify_credentials');
 $content = $connection->get('statuses/home_timeline');
 
-//require_once("trendsetter.php");
 $alltweets = "";
-
 foreach ($content as $tw) {
-  $words = $tw->text;
-  $alltweets .= $words;
+  $alltweets .= $tw->text;
 }
 
-//require_once 'transmute.php';
-//$trends = getKeywords($alltweets);
+require_once 'transmute.php';
+$trends = getKeywords($alltweets);
+var_dump($trends);
 
 /* Some example calls */
 //$connection->get('users/show', array('screen_name' => 'abraham'));
