@@ -1,9 +1,9 @@
 <?php
 
-require_once '/config.php';
-include_once "/alchemy/AlchemyAPI.php";
+require_once 'config.php';
+include_once "AlchemyAPI.php";
 
-public function getKeywords($tweets)
+function getKeywords($tweets)
 {
   // Create an AlchemyAPI object.
   $alchemyObj = new AlchemyAPI();
@@ -13,6 +13,7 @@ public function getKeywords($tweets)
 
   // Extract topic keywords from a text string.
   $result = $alchemyObj->TextGetRankedKeywords($tweets, AlchemyAPI::JSON_OUTPUT_MODE);
+  return $result;
 }
 
 ?>
