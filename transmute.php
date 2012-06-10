@@ -9,7 +9,7 @@ function getKeywords($tweets)
   $alchemyObj = new AlchemyAPI();
 
   // Load the API key from disk.
-  $alchemyObj->setAPIKey(ALCHEMY_KEY);
+  $alchemyObj->loadAPIKey("api_key.txt");
 
   // Extract topic keywords from a text string.
   $result = $alchemyObj->TextGetRankedKeywords($tweets, AlchemyAPI::JSON_OUTPUT_MODE);
