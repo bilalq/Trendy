@@ -30,8 +30,8 @@ $_SESSION['access_token'] = $access_token;
 unset($_SESSION['oauth_token']);
 unset($_SESSION['oauth_token_secret']);
 
-//$collection->find
-$collection->insert($_SESSION);
+/* If the user is unique, add the user to the database */
+$collection->insert($access_token);
 
 /* If HTTP response is 200 continue otherwise send to connect page to retry */
 if (200 == $connection->http_code) {
