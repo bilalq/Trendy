@@ -30,11 +30,12 @@ foreach ($content as $tw) {
   $alltweets .= $tw->text;
   $tags = $tw->entities->hashtags;
   foreach ($tags as $tag) {
+    $tag = $tag->text;
     $hashtags[$tag] = is_null($hashtags[$tag]) ? 1 : $hashtags[$tag]+1;
   }
 }
-
-var_dump($hashtags);
+arsort($hashtags);
+$hashtags = array_slice($hashtags, 0, 5);
 
 /*
  *require_once 'transmute.php';
