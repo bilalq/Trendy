@@ -102,6 +102,6 @@ function buildTweet ($tweetData) {
     );
   }
   $tweet['timestamp'] = $tweetData->created_at;
-  $tweet['id'] = $tweetData->id;
+  $tweet['id'] = $tweetData->id_str;
   return $tweet;
 }
