@@ -37,28 +37,55 @@ foreach ($content as $tw) {
 }
 arsort($hashtags);
 $hashtags = array_slice($hashtags, 0, 5);
-$tagList = array_keys($hashtags);
+foreach ($hashtags as $tag => $tagCount) {
+  $hashtags[$tag] = array("count" => $tagCount, "tweets" => array());
+}
+//print_r(json_encode($hashtags));
 
-/*
- *require_once 'transmute.php';
+
+/* Get keywords in tweets from Alchemy */
+/*require_once 'transmute.php';
  *$trends = json_decode(getKeywords($alltweets))->keywords;
  */
 
+
+/* Assign tweets to trends */
 foreach ($content as $tweet) {
   $tweetText = $tweet->text;
-  foreach ($tagList as $tag) {
-    if (strpos($tweetText, $tag) !== false) {
-      echo("#");
-      print_r($currTag);
-      echo "<br />";
-      print_r($tweetText);
-      echo "<br />";
-      echo "<br />";
-      break;
+
+  //Assign tweets to hashtags
+  foreach ($hashtags as $tag => $tagData) {
+    if (strpos($tweetText, "#".$tag) !== false) {
+      $tagData.
     } 
   }
+
 }
-    //if (!(is_null($tweet->retweeted_status)) {
+
+function buildTweet ($tweetData) {
+  $tweet = array();
+  $retweeted = $tweetData->retweeted_status;
+
+  if (is_null(retweeted)) {
+    $tweet['name'] = $tweetData->user->name;
+    $tweet['username'] = $tweetData->user->screen_name;
+    $tweet['photo'] = $tweetData->user->profile_image_url_https;
+    $tweet['text'] = $tweetData->text;
+  }
+  else {
+    $tweet['name'] = $retweeted->user->name;
+    $tweet['username'] = $retweeted->user->screen_name;
+    $tweet['photo'] = $retweeted->user->profile_image_url_https;
+    $tweet['text'] = $retweeted->text;
+    $tweet['retweet_by'] = array(
+      'name' => $tweetData->user->name,
+      'username' => $tweetData->user->screen_name
+    );
+  }
+  $tweet['timestamp'] = $tweetData->created_at;
+  $tweet['id'] = $tweetData->id;
+  return $tweet;
+}
 
 //Responses
 //print_r($hashtags);
@@ -80,4 +107,3 @@ foreach ($content as $tweet) {
 //$content = getTrends($potentials);
 //var_dump(json_encode($content));
 //include('html.inc');
-
