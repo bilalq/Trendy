@@ -89,11 +89,6 @@ var foo = {
   ]
 };
 
-$(document).ready(function(){
-	$('.demo').html('My First JavaScript');	
-	alert(foo['facebook'][1].username);
-});
-
 function friendlyDate(utcString) {
   var K = function () {
     var a = navigator.userAgent;
@@ -146,3 +141,18 @@ function friendlyDate(utcString) {
   };
   return H(utcString);
 }
+
+$(document).ready(function(){
+	// alert(friendlyDate(foo['facebook'][1].timestamp));
+		
+	var i = 1;
+	var ul = $(".trend-items.js-trends");
+	
+	for (trend in foo) {
+		$(ul).append('<li class="js-trend-item "><a href="#">' + trend + '</a></li>');
+		i++;
+	};
+	
+});
+
+
