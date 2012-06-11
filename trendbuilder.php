@@ -2,11 +2,27 @@
 require_once 'transmute.php';
 
 
+/* Builds a hashtag list, text body for Alchemy, and the maxID for timeline traversal */
+function generateData($data, &$hashtags, &$allTweetText) {
+  foreach ($data as $tw) {
+    if ($maxID > $tw->id){
+      $maxID = $tw->id;
+    }
+
+    $allTweetText .= $tw->text;
+    $tags = $tw->entities->hashtags;
+    foreach ($tags as $tag) {
+      $tag = $tag->text;
+      $hashtags[$tag] = is_null($hashtags[$tag]) ? 1 : $hashtags[$tag]+1;
+    }
+  }
+  return ($maxID - 1);
+}
+
+
 /* Builds array of trends that hold their respective tweets */
-function buildTrends($data) {
-  $hashtagTrends = null;
-  $keywordTrends = null;
-  getTrendTopics($data, $hashtagTrends, $keywordTrends);
+function buildTrends($data, $hashtagsTrends, $allTweets) {
+  getTrendingTopics($allTweets, $hashtagTrends, $keywordTrends);
 
   foreach ($data as $tweetObj) {
     $tweetText = $tweetObj->text;
@@ -34,34 +50,21 @@ function buildTrends($data) {
 }
 
 
-/* Finds 5 most frequent hashtags and keywords */
-function getTrendTopics($data, &$hashTrends, &$keyTrends) {
-  /* Finds the most 5 most frequest hashtags and their occurence count.
-   * Also gathers the text of all tweets to pass on to Alchemy. */
-  $hashtags = array();
-  $alltweets = "";
-  foreach ($data as $tw) {
-    $alltweets .= $tw->text;
-    $tags = $tw->entities->hashtags;
-    foreach ($tags as $tag) {
-      $tag = $tag->text;
-      $hashtags[$tag] = is_null($hashtags[$tag]) ? 1 : $hashtags[$tag]+1;
-    }
-  }
-  arsort($hashtags);
-  $hashtags = array_slice($hashtags, 0, 5);
+/* Builds a list of the 5 most frequent trends in both hashtags and keywords */
+function getTrendingTopics($allTweetText, &$hashTrends, &$keywordTrends) {
+  arsort($hashTrends);
+  $hashTrends = array_slice($hashTrends, 0, 5);
+
   $topTags = array();
-  foreach ($hashtags as $tag => $tagCount) {
+  foreach ($hashTrends as $tag => $tagCount) {
     $tag = '#'.$tag;
     $topTags[$tag] = array(
       'count' => $tagCount, 
       'tweets' => array()
     );
   }
-
   $hashTrends = $topTags;
   $keyTrends = getTrendingKeywords($alltweets);
-  return;
 }
 
 
