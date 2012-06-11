@@ -37,18 +37,32 @@ foreach ($content as $tw) {
 }
 arsort($hashtags);
 $hashtags = array_slice($hashtags, 0, 5);
+$tagList = array_keys($hashtags);
 
-require_once 'transmute.php';
-$trends = json_decode(getKeywords($alltweets))->keywords;
 /*
- *foreach ($trends as $trend) {
- *  print_r($trend->text);
- *  echo '&nbsp;';
- *  print_r($trend->relevance);
- *  echo '<br />';
- *}
+ *require_once 'transmute.php';
+ *$trends = json_decode(getKeywords($alltweets))->keywords;
  */
-print_r(json_encode($trends));
+
+foreach ($content as $tweet) {
+  $tweetText = $tweet->text;
+  foreach ($tagList as $tag) {
+    if (strpos($tweetText, $tag) !== false) {
+      echo("#");
+      print_r($currTag);
+      echo "<br />";
+      print_r($tweetText);
+      echo "<br />";
+      echo "<br />";
+      break;
+    } 
+  }
+}
+    //if (!(is_null($tweet->retweeted_status)) {
+
+//Responses
+//print_r($hashtags);
+//print_r(json_encode($trends));
 
 //foreach ($trends as $trend) {
   //print_r($trend->keyword);
