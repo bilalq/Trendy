@@ -26,16 +26,23 @@ $timelineOne = $connection->get('statuses/home_timeline', array('count' => 200, 
 $maxID = $timelineOne[0]->id;
 $allTweets = "";
 $hashtags = array();
-$maxID = generateData($timelineOne, $hashtags, $allTweets);
-
+generateData($timelineOne, $maxID, $hashtags, $allTweets);
 
 /* Second pass through timeline */
 $timelineTwo = $connection->get('statuses/home_timeline', array('count' => 200, 'include_entities' => true, 'max_id' => $maxID));
-$maxID = generateData($timelineTwo, $hashtags, $allTweets);
-$timeline = array_merge($timelineOne, $timelineTwo);
+generateData($timelineTwo, $maxID, $hashtags, $allTweets);
+
+/* Third pass through timeline */
+/*
+ *$timelineThree = $connection->get('statuses/home_timeline', array('count' => 200, 'include_entities' => true, 'max_id' => $maxID));
+ *generateData($timelineThree, $maxID, $hashtags, $allTweets);
+ *$timeline = array_merge($timelineOne, $timelineTwo, $timelineThree);
+ */
+
+
 $trends = buildTrends($timeline, $hashtags, $allTweets);
 
 
-//print_r(json_encode($trends));
+print_r(json_encode($trends));
 
 //include('html.inc');
