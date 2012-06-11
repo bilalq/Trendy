@@ -6,13 +6,8 @@
 	"content_scripts": [{
 		"all_frames": true,
 		"run_at": "document_end",
-<<<<<<< HEAD
-    "css": [ "bootstrap.min.css" ],
-		"js":[ "jquery-1.7.2.min.js", "bootstrap.min.js", "content_script.js" ],
-=======
 		"css": ["bootstrap/css/bootstrap.css"],
 		"js":[ "jquery-1.7.2.js", "content_script.js", "bootstrap/js/bootstrap.js"],
->>>>>>> alchemy
 		"matches": [ 
 		      "http://twitter.com/*",
 		      "https://twitter.com/*"
