@@ -37,31 +37,50 @@ foreach ($content as $tw) {
 }
 arsort($hashtags);
 $hashtags = array_slice($hashtags, 0, 5);
+$topTags = array();
 foreach ($hashtags as $tag => $tagCount) {
-  $hashtags[$tag] = array("count" => $tagCount, "tweets" => array());
+  $tag = '#'.$tag;
+  $topTags[$tag] = array(
+    'count' => $tagCount, 
+    'tweets' => array()
+  );
 }
-//print_r(json_encode($hashtags));
-
 
 /* Get keywords in tweets from Alchemy */
-/*require_once 'transmute.php';
- *$trends = json_decode(getKeywords($alltweets))->keywords;
- */
+require_once 'transmute.php';
+$alchemyResponse = json_decode(getKeywords($alltweets))->keywords;
+$keywords = array();
+foreach ($alchemyResponse as $key) {
+  $keywords[$key->text] = array(
+    'count' => 0,
+    'tweets' => array()
+  );
+}
 
-
-/* Assign tweets to trends */
+$foolcount = 0;
+/* Build list of trends */
 foreach ($content as $tweetObj) {
   $tweetText = $tweetObj->text;
 
-  //Assign tweets to hashtags
-  foreach ($hashtags as $tag => $tagData) {
-    if (strpos($tweetText, "#".$tag) !== false) {
+  //Assign tweets to keywords
+  foreach ($keywords as $key => $keyData) {
+    if(stripos($tweetText, $key) !== false) {
       $entry = buildTweet($tweetObj);
-      //print_r(json_encode($entry));
-      array_push($hashtags[$tag]['tweets'], $entry);
+      array_push($keywords[$key]['tweets'], $entry);
+      $keywords[$key]['count']++;
+    }
+  }
+
+  //Assign tweets to hashtags
+  foreach ($topTags as $tag => $tagData) {
+    if (stripos($tweetText, $tag) !== false) {
+      $entry = buildTweet($tweetObj);
+      array_push($topTags[$tag]['tweets'], $entry);
     } 
   }
 }
+
+$trends = array_merge($topTags, $keywords);
 
 function buildTweet ($tweetData) {
   $tweet = array();
@@ -88,23 +107,6 @@ function buildTweet ($tweetData) {
   return $tweet;
 }
 
-//Responses
-print_r(json_encode($hashtags));
-//print_r(json_encode($trends));
+print_r(json_encode($trends));
 
-//foreach ($trends as $trend) {
-  //print_r($trend->keyword);
-//}
-
-/* Some example calls */
-//$connection->get('users/show', array('screen_name' => 'abraham'));
-//$connection->post('statuses/update', array('status' => date(DATE_RFC822)));
-//$connection->post('statuses/destroy', array('id' => 5437877770));
-//$connection->post('friendships/create', array('id' => 9436992));
-//$connection->post('friendships/destroy', array('id' => 9436992));
-
-/* Include HTML to display on the page */
-//$potentials = makeTrends($content, $ignore, $punc);
-//$content = getTrends($potentials);
-//var_dump(json_encode($content));
 //include('html.inc');
