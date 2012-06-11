@@ -21,21 +21,31 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oau
 
 /* If method is set change API call made. Test is called by default. */
 //$content = $connection->get('account/verify_credentials');
-$content = $connection->get('statuses/home_timeline', array('count' => 200, 'exclude_replies' => true));
+$content = $connection->get('statuses/home_timeline', array('count' => 200, 'include_entities' => true));
+echo "All set! ";
 
+$hashtags = array();
 $alltweets = "";
 foreach ($content as $tw) {
   $alltweets .= $tw->text;
+  $tags = $tw->entities->hashtags;
+  foreach ($tags as $tag) {
+    $hashtags[$tag] = is_null($hashtags[$tag]) ? 1 : $hashtags[$tag]+1;
+  }
 }
 
-require_once 'transmute.php';
-$trends = json_decode(getKeywords($alltweets))->keywords;
-foreach ($trends as $trend) {
-  print_r($trend->text);
-  echo '&nbsp;';
-  print_r($trend->relevance);
-  echo '<br />';
-}
+var_dump($hashtags);
+
+/*
+ *require_once 'transmute.php';
+ *$trends = json_decode(getKeywords($alltweets))->keywords;
+ *foreach ($trends as $trend) {
+ *  print_r($trend->text);
+ *  echo '&nbsp;';
+ *  print_r($trend->relevance);
+ *  echo '<br />';
+ *}
+ */
 
 //foreach ($trends as $trend) {
   //print_r($trend->keyword);
