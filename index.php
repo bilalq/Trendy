@@ -22,6 +22,32 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oau
 /* If method is set change API call made. Test is called by default. */
 //$content = $connection->get('account/verify_credentials');
 $content = $connection->get('statuses/home_timeline', array('count' => 200, 'include_entities' => true));
+$maxID = $content[0]->id;
+
+$hashtags = array();
+$alltweets = "";
+foreach ($data as $tw) {
+  $alltweets .= $tw->text;
+  $tags = $tw->entities->hashtags;
+  foreach ($tags as $tag) {
+    $tag = $tag->text;
+    $hashtags[$tag] = is_null($hashtags[$tag]) ? 1 : $hashtags[$tag]+1;
+  }
+}
+$topTags = array();
+foreach ($hashtags as $tag => $tagCount) {
+  $tag = '#'.$tag;
+  $topTags[$tag] = array(
+    'count' => $tagCount, 
+    'tweets' => array()
+  );
+}
+
+arsort($hashtags);
+$hashtags = array_slice($hashtags, 0, 5);
+$hashTrends = $topTags;
+$keyTrends = getTrendingKeywords($alltweets);
+
 
 require_once('trendbuilder.php');
 $trends = buildTrends($content);
