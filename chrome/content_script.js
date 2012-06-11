@@ -14,7 +14,7 @@ $(document).ready(function() {
 	      "username": "day9tv",
 	      "name": "Sean Plott",
 	      "text": "Mad props to SaSe.  Thus far at MLG he's beaten beastyqt, desrow, ostojiy, mystik, sleep, socke, heart, violet, rain, grubby, leenock & polt",
-	      "photo": "https://si0.twimg.com/profile_images/360825080/iconS_normal.gif://si0.twimg.com/profile_images/1796380463/Day9_Twitter_normal.jpg",
+	      "photo": "https://si0.twimg.com/profile_images/1796380463/Day9_Twitter_normal.jpg",
 	      "timestamp": "Sun Jun 10 21:06:12 +0000 2012",
 	      "id": 211923341479653380,
 	      "retweet_by": null
@@ -145,7 +145,7 @@ $(document).ready(function() {
 		
 	var ftwidget = '<div class="friendTrend module trends component"><div class="flex-module trends-inner"><div class="flex-module-header"><h3><span class="js-trend-location">Trending in Timeline</span></h3></div><div class="flex-module-inner"><ul id="ftwidget" class="trend-items js-trends"></ul></div></div></div>';
 	
-	var testModal = '<div class="hide" id="myModal" style="position: fixed;top: 50%;left: 50%;z-index: 1050;width: 560px;margin: -250px 0px 0px -280px;overflow: auto;background-color:white;border: 1px solidrgba(0, 0, 0, 0.296875);border-image: initial;border-radius: ;-webkit-box-shadow:rgba(0, 0, 0, 0.296875) 0px 3px 7px;box-shadow:rgba(0, 0, 0, 0.296875) 0px 3px 7px;-webkit-background-clip: padding-box;background-clip: padding-box;"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">×</button><h3 id="resultsWinTitle"></h3></div><div class="modal-body"></div><div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Close</a></div></div>';
+	var testModal = '<div class="hide" id="myModal" style="position: fixed;top: 50%;left: 50%;z-index: 1050;width: 560px;margin: -250px 0px 0px -280px;overflow: auto;background-color:white;border: 1px solidrgba(0, 0, 0, 0.296875);border-image: initial;border-radius: ;-webkit-box-shadow:rgba(0, 0, 0, 0.296875) 0px 3px 7px;box-shadow:rgba(0, 0, 0, 0.296875) 0px 3px 7px;-webkit-background-clip: padding-box;background-clip: padding-box;"><div class="modal-header"><button type="button" style="margin-top:-5px;float: right;width: 12px;height: 20px;background: url(../img/twitter_web_sprite_icons.png) no-repeat 0 -510px;cursor: pointer;" class="close" data-dismiss="modal">×</button><h3 id="resultsWinTitle"></h3></div><div class="modal-body"></div><div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Close</a></div></div>';
 	
   (function loadWidget() {
     setTimeout(function() {
@@ -172,10 +172,18 @@ $(document).ready(function() {
         };
         
         $('a.friendTrendLink').click(function() {
-          $('#resultsWinTitle').html('Results for <strong>' + $(this).text() + '</strong>');
+			trend = $(this).text();
+			$('#resultsWinTitle').html('Results for <strong>' + trend + '</strong>');
         });
-      }
-      $('div.modal-body').append(tweet[1].username);
+
+		for (trend in foo) {
+			for (var j=0; j<foo[trend].length; j++) {
+				$('div.modal-body').append('<div class="simple-tweet tweet"><div class="content" style="margin-left:40px"><div class="stream-item-header"><small class="time" style="float:right;"><a href="/'+ foo[trend][j].username +'/status/' + foo[trend][j].id + '" class="tweet-timestamp js-permalink"><span class="_timestamp">' + friendlyDate(foo[trend][j].timestamp) + '</span></a></small><a href="/' + foo[trend][j].username + '"><img class="avatar" style="width:32px;height:32px;margin-right:10px;" src="' + foo[trend][j].photo + '"><strong class="fullname">' + foo[trend][j].name + '</strong><span class="username" style="margin-left:5px;"><s>@</s><b>' + foo[trend][j].username + '</b></span></a></div><p class="js-tweet-text">' + foo[trend][j].text + '</p><div class="stream-item-footer"><a class="details" href="/'+ foo[trend][j].username +'/status/' + foo[trend][j].id + '"><b><span style="color:#999;">Details</span></b></a></div></div></div>');
+			}
+		} 
+		
+      }	
+      
     }, 2500);
   })();
 	
