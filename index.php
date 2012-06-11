@@ -56,7 +56,9 @@ foreach ($content as $tweetObj) {
   //Assign tweets to hashtags
   foreach ($hashtags as $tag => $tagData) {
     if (strpos($tweetText, "#".$tag) !== false) {
-      array_push($tagData['tweets'], buildTweet($tweetObj));
+      $entry = buildTweet($tweetObj);
+      //print_r(json_encode($entry));
+      array_push($hashtags[$tag]['tweets'], $entry);
     } 
   }
 }
@@ -65,7 +67,7 @@ function buildTweet ($tweetData) {
   $tweet = array();
   $retweeted = $tweetData->retweeted_status;
 
-  if (is_null(retweeted)) {
+  if (is_null($retweeted)) {
     $tweet['name'] = $tweetData->user->name;
     $tweet['username'] = $tweetData->user->screen_name;
     $tweet['photo'] = $tweetData->user->profile_image_url_https;
