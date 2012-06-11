@@ -50,16 +50,15 @@ foreach ($hashtags as $tag => $tagCount) {
 
 
 /* Assign tweets to trends */
-foreach ($content as $tweet) {
-  $tweetText = $tweet->text;
+foreach ($content as $tweetObj) {
+  $tweetText = $tweetObj->text;
 
   //Assign tweets to hashtags
   foreach ($hashtags as $tag => $tagData) {
     if (strpos($tweetText, "#".$tag) !== false) {
-      $tagData.
+      array_push($tagData['tweets'], buildTweet($tweetObj));
     } 
   }
-
 }
 
 function buildTweet ($tweetData) {
@@ -88,7 +87,7 @@ function buildTweet ($tweetData) {
 }
 
 //Responses
-//print_r($hashtags);
+print_r(json_encode($hashtags));
 //print_r(json_encode($trends));
 
 //foreach ($trends as $trend) {
