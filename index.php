@@ -22,45 +22,10 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oau
 /* If method is set change API call made. Test is called by default. */
 //$content = $connection->get('account/verify_credentials');
 $content = $connection->get('statuses/home_timeline', array('count' => 200, 'include_entities' => true));
-echo "All set! ";
 
-$hashtags = array();
-$alltweets = "";
-foreach ($content as $tw) {
-  $alltweets .= $tw->text;
-  $tags = $tw->entities->hashtags;
-  foreach ($tags as $tag) {
-    $hashtags[$tag] = is_null($hashtags[$tag]) ? 1 : $hashtags[$tag]+1;
-  }
-}
+require_once('trendbuilder.php');
+$trends = buildTrends($content);
 
-var_dump($hashtags);
+print_r(json_encode($trends));
 
-/*
- *require_once 'transmute.php';
- *$trends = json_decode(getKeywords($alltweets))->keywords;
- *foreach ($trends as $trend) {
- *  print_r($trend->text);
- *  echo '&nbsp;';
- *  print_r($trend->relevance);
- *  echo '<br />';
- *}
- */
-
-//foreach ($trends as $trend) {
-  //print_r($trend->keyword);
-//}
-
-/* Some example calls */
-//$connection->get('users/show', array('screen_name' => 'abraham'));
-//$connection->post('statuses/update', array('status' => date(DATE_RFC822)));
-//$connection->post('statuses/destroy', array('id' => 5437877770));
-//$connection->post('friendships/create', array('id' => 9436992));
-//$connection->post('friendships/destroy', array('id' => 9436992));
-
-/* Include HTML to display on the page */
-//$potentials = makeTrends($content, $ignore, $punc);
-//$content = getTrends($potentials);
-//var_dump(json_encode($content));
 //include('html.inc');
-
