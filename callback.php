@@ -32,12 +32,7 @@ unset($_SESSION['oauth_token_secret']);
 
 /* If the user is unique, add the user to the database */
 $collection->ensureIndex(array('screen_name' => 1), array("unique" => 1, "dropDups" => 1));
-try {
-  $collection->insert($access_token, true);
-} 
-catch(MongoCursorException $e) {
-  //Do nothing if it already exists
-}
+$collection->insert($access_token);
 
 
 /* If HTTP response is 200 continue otherwise send to connect page to retry */
