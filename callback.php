@@ -30,6 +30,7 @@ $_SESSION['access_token'] = $access_token;
 unset($_SESSION['oauth_token']);
 unset($_SESSION['oauth_token_secret']);
 
+//$collection->find
 $collection->insert($_SESSION);
 
 /* If HTTP response is 200 continue otherwise send to connect page to retry */
