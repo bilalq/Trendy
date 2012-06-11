@@ -22,8 +22,9 @@ $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $access_token['oau
 /* If method is set change API call made. Test is called by default. */
 //$content = $connection->get('account/verify_credentials');
 $content = $connection->get('statuses/home_timeline', array('count' => 200, 'include_entities' => true));
-echo "All set! ";
 
+/* Finds the most 5 most frequest hashtags and their occurence count.
+ * Also gathers the text of all tweets to pass on to Alchemy. */
 $hashtags = array();
 $alltweets = "";
 foreach ($content as $tw) {
@@ -37,9 +38,9 @@ foreach ($content as $tw) {
 arsort($hashtags);
 $hashtags = array_slice($hashtags, 0, 5);
 
+require_once 'transmute.php';
+$trends = json_decode(getKeywords($alltweets))->keywords;
 /*
- *require_once 'transmute.php';
- *$trends = json_decode(getKeywords($alltweets))->keywords;
  *foreach ($trends as $trend) {
  *  print_r($trend->text);
  *  echo '&nbsp;';
@@ -47,6 +48,7 @@ $hashtags = array_slice($hashtags, 0, 5);
  *  echo '<br />';
  *}
  */
+print_r(json_encode($trends));
 
 //foreach ($trends as $trend) {
   //print_r($trend->keyword);
