@@ -3,7 +3,7 @@ require_once 'transmute.php';
 
 
 /* Builds a hashtag list, text body for Alchemy, and the maxID for timeline traversal */
-function generateData($data, &$hashtags, &$allTweetText) {
+function generateData($data, &$maxID, &$hashtags, &$allTweetText) {
   foreach ($data as $tw) {
     if ($maxID > $tw->id){
       $maxID = $tw->id;
@@ -16,12 +16,14 @@ function generateData($data, &$hashtags, &$allTweetText) {
       $hashtags[$tag] = is_null($hashtags[$tag]) ? 1 : $hashtags[$tag]+1;
     }
   }
-  return ($maxID - 1);
+  $maxID--;
+  return;
 }
 
 
 /* Builds array of trends that hold their respective tweets */
-function buildTrends($data, $hashtagsTrends, $allTweets) {
+function buildTrends($data, $hashtagTrends, $allTweets) {
+  $keywordTrends = null;
   getTrendingTopics($allTweets, $hashtagTrends, $keywordTrends);
 
   foreach ($data as $tweetObj) {
@@ -51,7 +53,7 @@ function buildTrends($data, $hashtagsTrends, $allTweets) {
 
 
 /* Builds a list of the 5 most frequent trends in both hashtags and keywords */
-function getTrendingTopics($allTweetText, &$hashTrends, &$keywordTrends) {
+function getTrendingTopics($allTweetText, &$hashTrends, &$keyTrends) {
   arsort($hashTrends);
   $hashTrends = array_slice($hashTrends, 0, 5);
 
@@ -64,7 +66,7 @@ function getTrendingTopics($allTweetText, &$hashTrends, &$keywordTrends) {
     );
   }
   $hashTrends = $topTags;
-  $keyTrends = getTrendingKeywords($alltweets);
+  $keyTrends = getTrendingKeywords($allTweetText);
 }
 
 
