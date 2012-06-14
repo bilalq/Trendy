@@ -173,9 +173,15 @@ $(document).ready(function() {
 			$(ul).append('<li class="js-trend-item "><a class="friendTrendLink" data-toggle="modal" href="#myModal">' + trend + '</a></li>');
 			i++;
 		};
-			
-		$('a.friendTrendLink').click(function() {
+		$('a.friendTrendLink').on('click', function() {
 			trend = $(this).text();
+      var tweetsOfTrend = foo[trend];
+
+      for (var i = 0; i < tweetsOfTrend.length; i++) {
+        var tweet = tweetsOfTrend[i];
+        console.log(tweet.username);
+      };
+
 			$('#resultsWinTitle').html('Results for <strong>' + trend + '</strong>');
 		});
 	
