@@ -158,6 +158,9 @@ $(document).ready(function() {
       else {
         /* WRITE ALL CODE HERE */
         module.after(testModal, ftwidget);
+
+        //This is the screen name of the user currently signed in to Twitter
+        var username = $('div.account-group.js-mini-current-user:first').data('screenName');
         
         var i = 1;
         var ul = $("#ftwidget");

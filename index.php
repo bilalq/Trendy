@@ -40,6 +40,7 @@ generateData($timelineTwo, $maxID, $hashtags, $allTweets);
  */
 
 
+$timeline = array_merge($timelineOne, $timelineTwo);
 $trends = buildTrends($timeline, $hashtags, $allTweets);
 
 
