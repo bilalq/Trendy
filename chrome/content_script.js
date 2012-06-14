@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 	var foo = {
 	  "#mlg": [
 	    {
@@ -164,23 +165,22 @@ $(document).ready(function() {
         $('div.dashboard').on('click', 'a.friendTrendLink', function(e){
           e.preventDefault();
         });
-        
-        for (trend in foo) 
-        {
-          $(ul).append('<li class="js-trend-item "><a class="friendTrendLink" data-toggle="modal" href="#myModal">' + trend + '</a></li>');
-          i++;
-        };
-        
-        $('a.friendTrendLink').click(function() {
+
+		for (trend in foo) {
+			$(ul).append('<li class="js-trend-item "><a class="friendTrendLink" data-toggle="modal" href="#myModal">' + trend + '</a></li>');
+			i++;
+		};
+			
+		$('a.friendTrendLink').click(function() {
 			trend = $(this).text();
 			$('#resultsWinTitle').html('Results for <strong>' + trend + '</strong>');
-        });
-
+		});
+	
 		for (trend in foo) {
 			for (var j=0; j<foo[trend].length; j++) {
 				$('div.modal-body').append('<div class="simple-tweet tweet"><div class="content" style="margin-left:40px"><div class="stream-item-header"><small class="time" style="float:right;"><a href="/'+ foo[trend][j].username +'/status/' + foo[trend][j].id + '" class="tweet-timestamp js-permalink"><span class="_timestamp">' + friendlyDate(foo[trend][j].timestamp) + '</span></a></small><a href="/' + foo[trend][j].username + '"><img class="avatar" style="width:32px;height:32px;margin-right:10px;" src="' + foo[trend][j].photo + '"><strong class="fullname">' + foo[trend][j].name + '</strong><span class="username" style="margin-left:5px;"><s>@</s><b>' + foo[trend][j].username + '</b></span></a></div><p class="js-tweet-text">' + foo[trend][j].text + '</p><div class="stream-item-footer"><a class="details" href="/'+ foo[trend][j].username +'/status/' + foo[trend][j].id + '"><b><span style="color:#999;">Details</span></b></a></div></div></div>');
 			}
-		} 
+		}
 		
       }	
       
