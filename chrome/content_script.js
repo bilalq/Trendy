@@ -174,6 +174,7 @@ $(document).ready(function() {
 			i++;
 		};
 		
+		// Hides the modal so it doesn't automatically display on page load.
 		$('#myModal').hide();
 		
 		$('a.friendTrendLink').on('click', function() {
@@ -182,7 +183,9 @@ $(document).ready(function() {
 			
 			var tweetsOfTrend = foo[trend];
 			
+			// Empty's the contents of the modal loading tweets. 
 			$('div.modal-body').empty();
+			
 	      	for (var i = 0; i < tweetsOfTrend.length; i++) {
 	        	var tweet = tweetsOfTrend[i];
 				$('div.modal-body').append('<div class="simple-tweet tweet"><div class="content" style="margin-left:40px"><div class="stream-item-header"><small class="time" style="float:right;"><a href="/'+ tweet.username +'/status/' + tweet.id + '" class="tweet-timestamp js-permalink"><span class="_timestamp">' + friendlyDate(tweet.timestamp) + '</span></a></small><a href="/' + tweet.username + '"><img class="avatar" style="width:32px;height:32px;margin-right:10px;" src="' + tweet.photo + '"><strong class="fullname">' + tweet.name + '</strong><span class="username" style="margin-left:5px;"><s>@</s><b>' + tweet.username + '</b></span></a></div><p class="js-tweet-text">' + tweet.text + '</p><div class="stream-item-footer"><a class="details" href="/'+ tweet.username +'/status/' + tweet.id + '"><b><span style="color:#999;">Details</span></b></a></div></div></div>');
