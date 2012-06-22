@@ -134,11 +134,12 @@ var foo = {
   }]
 };
 
-(function loadWidget() {
+function loadWidget() {
 
   setTimeout(function () {
     var module = $('div.module.trends.component')
-    if (module.length < 1) {
+    if (module === undefined) {
+    //if (module.length < 1) {
       loadWidget();
       return;
     } else {
@@ -147,6 +148,16 @@ var foo = {
 
       //This is the screen name of the user currently signed in to Twitter
       var username = $('div.account-group.js-mini-current-user:first').data('screenName');
+
+      $.ajax({
+        type: 'POST',
+        data: { user: username },
+        url: 'http://trends.villustrator.com/getTrends.php',
+        success: function(response){
+          alert(response);
+        }
+      });
+
 
       var i = 1;
       var ul = $("#ftwidget");
@@ -181,4 +192,16 @@ var foo = {
     }
 
   }, 2500);
-})();
+  console.log('Load widget ran!');
+}
+loadWidget();
+
+$(document).ready(function(){
+  $('body').on('click', 'a', function(e) {
+    loadWidget();
+  });
+
+
+});
+
+
