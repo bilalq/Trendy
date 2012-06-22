@@ -33,14 +33,12 @@ $timelineTwo = $connection->get('statuses/home_timeline', array('count' => 200, 
 generateData($timelineTwo, $maxID, $hashtags, $allTweets);
 
 /* Third pass through timeline */
-/*
- *$timelineThree = $connection->get('statuses/home_timeline', array('count' => 200, 'include_entities' => true, 'max_id' => $maxID));
- *generateData($timelineThree, $maxID, $hashtags, $allTweets);
- *$timeline = array_merge($timelineOne, $timelineTwo, $timelineThree);
- */
+$timelineThree = $connection->get('statuses/home_timeline', array('count' => 200, 'include_entities' => true, 'max_id' => $maxID));
+generateData($timelineThree, $maxID, $hashtags, $allTweets);
+$timeline = array_merge($timelineOne, $timelineTwo, $timelineThree);
+$timeline = array_merge($timelineOne, $timelineTwo, $timelineThree);
 
-
-$timeline = array_merge($timelineOne, $timelineTwo);
+//$timeline = array_merge($timelineOne, $timelineTwo);
 $trends = buildTrends($timeline, $hashtags, $allTweets);
 
 
