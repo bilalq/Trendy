@@ -1,5 +1,61 @@
-$(document).ready(function() {
+	function friendlyDate(utcString) {
+	  var K = function () {
+	    var a = navigator.userAgent;
+	    return {
+	        ie: a.match(/MSIE\s([^;]*)/)
+	    }
+	  }();
 
+	  var H = function (a) {
+	      var b = new Date();
+	      var c = new Date(a);
+	      if (K.ie) {
+	          c = Date.parse(a.replace(/( \+)/, ' UTC$1'))
+	      }
+	      var d = b - c;
+	      var e = 1000,
+	          minute = e * 60,
+	          hour = minute * 60,
+	          day = hour * 24,
+	          week = day * 7;
+	      if (isNaN(d) || d < 0) {
+	          return ""
+	      }
+	      if (d < e * 7) {
+	          return "right now"
+	      }
+	      if (d < minute) {
+	          return Math.floor(d / e) + "s"
+	      }
+	      if (d < minute * 2) {
+	          return "1m"
+	      }
+	      if (d < hour) {
+	          return Math.floor(d / minute) + "m"
+	      }
+	      if (d < hour * 2) {
+	          return "1h"
+	      }
+	      if (d < day) {
+	          return Math.floor(d / hour) + "h"
+	      }
+	      if (d > day && d < day * 2) {
+	          return "1d"
+	      }
+	      if (d < day * 365) {
+	          return Math.floor(d / day) + "d"
+	      } else {
+	          return "over a year ago"
+	      }
+	  };
+	  return H(utcString);
+	}
+		
+	var ftwidget = '<div class="friendTrend module trends component"><div class="flex-module trends-inner"><div class="flex-module-header"><h3><span class="js-trend-location">Trending in Timeline</span></h3></div><div class="flex-module-inner"><ul id="ftwidget" class="trend-items js-trends"></ul><p style="text-align:right;font-size:11px;color:grey">Powered by <a style="color:grey" href="#">Trendy</a></p></div></div></div>';
+	
+	var testModal = '<div class="hide" id="myModal" style="position: fixed;top: 50%;left: 50%;z-index: 1050;width: 560px;margin: -250px 0px 0px -280px;overflow: auto;background-color:white;border: 1px solidrgba(0, 0, 0, 0.296875);border-image: initial;border-radius: ;-webkit-box-shadow:rgba(0, 0, 0, 0.296875) 0px 3px 7px;box-shadow:rgba(0, 0, 0, 0.296875) 0px 3px 7px;-webkit-background-clip: padding-box;background-clip: padding-box;"><div class="modal-header"><button type="button" style="float: right;width: 15px;height: 20px;background: url(https://si0.twimg.com/a/1339639284/t1/img/twitter_web_sprite_icons.png) no-repeat 0 -510px;cursor: pointer;" class="close" data-dismiss="modal"></button><h3 id="resultsWinTitle"></h3></div><div class="modal-body"></div><div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Close</a></div></div>';
+	
+  (function loadWidget() {
 	var foo = {
 	  "#mlg": [
 	    {
@@ -90,65 +146,6 @@ $(document).ready(function() {
 	    }
 	  ]
 	};
-	
-	function friendlyDate(utcString) {
-	  var K = function () {
-	    var a = navigator.userAgent;
-	    return {
-	        ie: a.match(/MSIE\s([^;]*)/)
-	    }
-	  }();
-
-	  var H = function (a) {
-	      var b = new Date();
-	      var c = new Date(a);
-	      if (K.ie) {
-	          c = Date.parse(a.replace(/( \+)/, ' UTC$1'))
-	      }
-	      var d = b - c;
-	      var e = 1000,
-	          minute = e * 60,
-	          hour = minute * 60,
-	          day = hour * 24,
-	          week = day * 7;
-	      if (isNaN(d) || d < 0) {
-	          return ""
-	      }
-	      if (d < e * 7) {
-	          return "right now"
-	      }
-	      if (d < minute) {
-	          return Math.floor(d / e) + "s"
-	      }
-	      if (d < minute * 2) {
-	          return "1m"
-	      }
-	      if (d < hour) {
-	          return Math.floor(d / minute) + "m"
-	      }
-	      if (d < hour * 2) {
-	          return "1h"
-	      }
-	      if (d < day) {
-	          return Math.floor(d / hour) + "h"
-	      }
-	      if (d > day && d < day * 2) {
-	          return "1d"
-	      }
-	      if (d < day * 365) {
-	          return Math.floor(d / day) + "d"
-	      } else {
-	          return "over a year ago"
-	      }
-	  };
-	  return H(utcString);
-	}
-		
-	var ftwidget = '<div class="friendTrend module trends component"><div class="flex-module trends-inner"><div class="flex-module-header"><h3><span class="js-trend-location">Trending in Timeline</span></h3></div><div class="flex-module-inner"><ul id="ftwidget" class="trend-items js-trends"></ul></div></div></div>';
-	
-	var testModal = '<div class="hide" id="myModal" style="position: fixed;top: 50%;left: 50%;z-index: 1050;width: 560px;margin: -250px 0px 0px -280px;overflow: auto;background-color:white;border: 1px solidrgba(0, 0, 0, 0.296875);border-image: initial;border-radius: ;-webkit-box-shadow:rgba(0, 0, 0, 0.296875) 0px 3px 7px;box-shadow:rgba(0, 0, 0, 0.296875) 0px 3px 7px;-webkit-background-clip: padding-box;background-clip: padding-box;"><div class="modal-header"><button type="button" style="float: right;width: 15px;height: 20px;background: url(https://si0.twimg.com/a/1339639284/t1/img/twitter_web_sprite_icons.png) no-repeat 0 -510px;cursor: pointer;" class="close" data-dismiss="modal"></button><h3 id="resultsWinTitle"></h3></div><div class="modal-body"></div><div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Close</a></div></div>';
-	
-  (function loadWidget() {
     setTimeout(function() {
       var module = $('div.module.trends.component')
       if (module.length < 1) {
@@ -191,16 +188,8 @@ $(document).ready(function() {
 				$('div.modal-body').append('<div class="simple-tweet tweet"><div class="content" style="margin-left:40px"><div class="stream-item-header"><small class="time" style="float:right;"><a href="/'+ tweet.username +'/status/' + tweet.id + '" class="tweet-timestamp js-permalink"><span class="_timestamp">' + friendlyDate(tweet.timestamp) + '</span></a></small><a href="/' + tweet.username + '"><img class="avatar" style="width:32px;height:32px;margin-right:10px;" src="' + tweet.photo + '"><strong class="fullname">' + tweet.name + '</strong><span class="username" style="margin-left:5px;"><s>@</s><b>' + tweet.username + '</b></span></a></div><p class="js-tweet-text">' + tweet.text + '</p><div class="stream-item-footer"><a class="details" href="/'+ tweet.username +'/status/' + tweet.id + '"><b><span style="color:#999;">Details</span></b></a></div></div></div>');
 			};
 		});
-	
-		/* for (trend in foo) {
-			for (var j=0; j<foo[trend].length; j++) {
-				$('div.modal-body').append('<div class="simple-tweet tweet"><div class="content" style="margin-left:40px"><div class="stream-item-header"><small class="time" style="float:right;"><a href="/'+ foo[trend][j].username +'/status/' + foo[trend][j].id + '" class="tweet-timestamp js-permalink"><span class="_timestamp">' + friendlyDate(foo[trend][j].timestamp) + '</span></a></small><a href="/' + foo[trend][j].username + '"><img class="avatar" style="width:32px;height:32px;margin-right:10px;" src="' + foo[trend][j].photo + '"><strong class="fullname">' + foo[trend][j].name + '</strong><span class="username" style="margin-left:5px;"><s>@</s><b>' + foo[trend][j].username + '</b></span></a></div><p class="js-tweet-text">' + foo[trend][j].text + '</p><div class="stream-item-footer"><a class="details" href="/'+ foo[trend][j].username +'/status/' + foo[trend][j].id + '"><b><span style="color:#999;">Details</span></b></a></div></div></div>');
-			}
-		} */
 		
       }	
       
     }, 2500);
   })();
-	
-});
